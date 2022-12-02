@@ -5,6 +5,7 @@ use warnings;
 
 my $elf_counter = 1;
 my %elf_buckets;
+
 while(<>) {
     chomp;
     my $calorie_count = $_;
@@ -17,9 +18,10 @@ while(<>) {
 
 my $top_three_elf_calories = $elf_counter = 0;
 for my $elf_calory_count (sort { $elf_buckets{$b} <=> $elf_buckets{$a} } keys %elf_buckets) {
+    $elf_counter++;
+
     $top_three_elf_calories += $elf_buckets{$elf_calory_count};
-    if (++$elf_counter == 3) {
-        print $top_three_elf_calories, "\n";
-        last;
-    }
+
+    ($elf_counter == 1) && print "Top elven calories: $elf_buckets{$elf_calory_count}\n";
+    ($elf_counter == 3) && print "Top three elven calories: $top_three_elf_calories\n";
 }
