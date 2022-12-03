@@ -3,9 +3,7 @@
 use strict;
 use warnings;
 
-# TODO: increase the scores below for the value of the thing played (see instructions)
-
-my %outcome_matrix = (
+my %first_outcome_matrix = (
     AX => 4, # rock/rock
     AY => 8, # rock/paper
     AZ => 3, # rock/scissors
@@ -17,17 +15,32 @@ my %outcome_matrix = (
     CZ => 6, # scissors/scissors
 );
 
+my %second_outcome_matrix = (
+    AX => 3, # rock/scissors (lose, scissors)
+    AY => 4, # rock/rock (draw, rock)
+    AZ => 8, # rock/paper (win, paper)
+    BX => 1, # paper/rock (lose, rock)
+    BY => 5, # paper/paper (draw, paper)
+    BZ => 9, # paper/scissors (win, scissors)
+    CX => 2, # scissors/paper (lose, paper)
+    CY => 6, # scissors/scissors (draw, scissors)
+    CZ => 7, # scissors/rock (win, rock)
+);
+
 my $file = 'day-two-input.txt';
 open(my $fh, '<', $file) || die "Could not open $file - $!\n";
 
-my $total_score = 0;
+my $first_total_score  = 0;
+my $second_total_score = 0;
 while(<$fh>) {
     chomp;
     my $line = $_;
     $line =~ s/\s+//;
-    $total_score += $outcome_matrix{$line};
+    $first_total_score  += $first_outcome_matrix{$line};
+    $second_total_score += $second_outcome_matrix{$line};
 }
 
 close($fh);
 
-print "Total score is: $total_score\n";
+print "First total score is:  $first_total_score\n";
+print "Second total score is: $second_total_score\n";
