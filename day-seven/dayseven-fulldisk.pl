@@ -24,6 +24,7 @@ while(<$fh>) {
             # here we'll just remove the last seen directory
             # assumption: input doesn't cd .. without listing files first
             pop(@tree_directories);
+            # this will break if assumption wrong...
         } else {
             # here we just add the current cwd to our tree directories
             my $child  = $1;
@@ -44,6 +45,7 @@ while(<$fh>) {
     
 close($fh);
 
+# part one solution:
 my $total_bytes = 0;
 
 for my $size_of_directory (values(%directory_sizes)) {
@@ -52,4 +54,12 @@ for my $size_of_directory (values(%directory_sizes)) {
     }
 }
 
-print $total_bytes, "\n";
+print "SOLUTION 1: $total_bytes\n";
+
+# part two solution:
+for my $directory_size (sort { $directory_sizes{$a} <=> $directory_sizes{$b} } keys(%directory_sizes)) {
+    if ((70000000 - $directory_sizes{'/'} + $directory_sizes{$directory_size}) >= 30000000) {
+        print "SOLUTION 2: $directory_sizes{$directory_size}\n";
+        last;
+    }
+}
